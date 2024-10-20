@@ -14,3 +14,10 @@ wheels/
 
 # secrets
 keys/
+
+# artifacts
+data/
+user.db
+app.log.jsonl
+app-config.toml
+ToDos.md
