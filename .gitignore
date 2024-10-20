@@ -5,6 +5,9 @@ build/
 dist/
 wheels/
 *.egg-info
+.pytest_cache/
+.ruff_cache/
+.vscode
 
 # venv
 .venv
@@ -17,7 +20,8 @@ keys/
 
 # artifacts
 data/
+og/
 user.db
-app.log.jsonl
+app.log.*
 app-config.toml
 ToDos.md
