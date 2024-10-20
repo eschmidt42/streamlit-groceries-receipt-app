@@ -1,0 +1,34 @@
+{
+    "shop": {
+        "name": "My Supermarket",
+        "date_str": "2024-10-14",
+        "time_str": "13:12:00",
+        "total": 6.5
+    },
+    "items": [
+        {
+            "name": "Bread",
+            "price": 1.5,
+            "count": 2,
+            "mass": null,
+            "tax": "A",
+            "category": "Bread and baked goods"
+        },
+        {
+            "name": "Milk",
+            "price": 2.0,
+            "count": 1,
+            "mass": null,
+            "tax": "B",
+            "category": "Dairy"
+        },
+        {
+            "name": "Eggs",
+            "price": 3.0,
+            "count": 6,
+            "mass": null,
+            "tax": "A",
+            "category": "Dairy"
+        }
+    ]
+}
