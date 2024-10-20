@@ -1,0 +1,14 @@
+# https://docs.streamlit.io/develop/api-reference/configuration/config.toml
+[browser]
+gatherUsageStats = false
+
+[client]
+showErrorDetails = false
+
+[server]
+maxUploadSize = 10
+
+[theme]
+base="dark"
+primaryColor="#da671f"
+textColor="#ecdb93"

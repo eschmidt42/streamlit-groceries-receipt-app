@@ -1,0 +1,19 @@
+[data]
+root_dir = "./data"
+use_user = true
+extraction_subdir = "extraction-artifacts"
+collation_subdir = "collation-artifacts"
+
+[logging]
+config_file = "./logger-config.json"
+
+[services]
+
+[services.keys]
+dir = "./keys"
+
+[services.anthropic]
+
+key_file_name = "dummy"
+model = "claude-3-5-sonnet-20240620"
+max_tokens = 1024

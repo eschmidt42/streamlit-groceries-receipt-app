@@ -1,0 +1,60 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+      "rich": {
+        "format": "%(message)s",
+        "datefmt": "%Y-%m-%dT%H:%M:%S%z"
+      },
+      "json": {
+        "()": "library.fine_logging.JSONFormatter",
+        "fmt_keys": {
+          "level": "levelname",
+          "message": "message",
+          "timestamp": "timestamp",
+          "logger": "name",
+          "module": "module",
+          "function": "funcName",
+          "line": "lineno",
+          "thread_name": "threadName"
+        }
+      }
+    },
+    "filters": {
+      "third_party": {
+        "()": "library.fine_logging.DependencyFilter",
+        "param": 20
+      }
+    },
+    "handlers": {
+      "stdout": {
+        "class": "rich.logging.RichHandler",
+        "formatter": "rich",
+        "level": "DEBUG",
+        "filters": ["third_party"]
+      },
+      "file_json": {
+        "class": "logging.handlers.RotatingFileHandler",
+        "level": "DEBUG",
+        "formatter": "json",
+        "filename": "app.log.jsonl",
+        "maxBytes": 10000,
+        "backupCount": 3
+      },
+      "queue_handler": {
+        "class": "logging.handlers.QueueHandler",
+        "handlers": [
+          "file_json"
+        ],
+        "respect_handler_level": true
+      }
+    },
+    "loggers": {
+      "root": {
+        "level": "DEBUG",
+        "handlers": [
+          "stdout"
+        ]
+      }
+    }
+  }

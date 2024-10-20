@@ -1,0 +1,34 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0  # Use the ref you want to point at
+  hooks:
+  - id: trailing-whitespace
+  - id: check-added-large-files
+    args: ['--maxkb=1500']
+  - id: check-case-conflict
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: check-toml
+  - id: detect-private-key
+  - id: end-of-file-fixer
+  - id: name-tests-test
+    args: ['--pytest-test-first']
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.6.9
+  hooks:
+  # Run the linter.
+  - id: ruff
+    types_or: [ python, pyi ]
+    args: [ --select, I, --fix ]
+  # Run the formatter.
+  - id: ruff-format
+- repo: local
+  hooks:
+  - id: test
+    name: test
+    entry: pytest -x -m "not server"
+    pass_filenames: false
+    require_serial: true
+    language: system
+    types_or: [python, pyi]
