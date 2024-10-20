@@ -1,10 +1,10 @@
 # Groceries parser app
 
-> App to extract groceries data from images using streamlit and instructor. 
+> App to extract groceries data from images using streamlit and instructor.
 
 ## Purpose
 
-If you have a receipt like 
+If you have a receipt like
 
 ![receipt](receipt.jpg)
 
@@ -47,9 +47,11 @@ you can use this repo to get the data from that image into a pydantic validated 
 }
 ```
 
-The pieces for the above can be found in the jupyter notebook `./synthesize-and-parse-receipt.ipynb`.
+either running it locally or on railway. The latter allows you to take a picture on your phone, upload it and later collect the results on another machine, e.g. your desktop and do the post-processing of your groceries data you have always dreamed of.
 
-Interested to deploy a streamlit version? :-)
+Note: The pieces for the receipt image generation can be found in the jupyter notebook `./synthesize-and-parse-receipt.ipynb`.
+
+Alright, interested in deploying the app? :-)
 
 ## Deployment
 
@@ -83,23 +85,25 @@ To run the streamlit app the following setup is needed
     mkdir -p ./data/og/extraction-artifacts ./data/og/collation-artifacts ./keys
     echo "You'll guard me and you'll guide me" > ./keys/dummy
 
-The `app-config.toml` tells your streamlit app where to store data and how to configure the anthropic client. So you'll want  to get your anthropic key ([docs to the rescue](https://docs.anthropic.com/en/docs/)) and put it into a file in `./keys`, it may or may not be called `dummy` :-) (if not make sure to update `key_file_name` in the toml). 
+The `app-config.toml` tells your streamlit app where to store data and how to configure the anthropic client. So you'll want to get your anthropic key ([docs to the rescue](https://docs.anthropic.com/en/docs/)) and put it into a file in `./keys`, it may or may not be called `dummy` :-) (if not make sure to update `key_file_name` in the toml).
 
 Now it's time to start the streamlit app using
 
     rye run streamlit run app/main.py
 
-and open `localhost:8501` to marvel at it. Such startling levels of twig technology. 
+and open `localhost:8501` to marvel at it. Such startling levels of twig technology!
 
-To log in, the app will check against `user.db`, a sqlite db created using `create-user-db.py`. To overwrite `user.db` with a user you are comfortable with run
+To log in, the app will check against `user.db`, a sqlite database. You can create it using
 
-    rye run pythn create-user-db.py
+    rye run python create-user-db.py
 
-Now you should be good to go!
+This will ask you to choose a password for the user `og`.
+
+Now you should be good to go! Go forth and log in.
 
 ### 2. Run locally in a docker container
 
-The `Dockerfile` here is set up to do a two-stage build. You can start it using
+The `Dockerfile` here is set up to perform a two-stage build. You can start it using
 
     docker build --tag demo-groceries-parser-app-railway -f Dockerfile .
 
@@ -109,7 +113,7 @@ and run the container using
 
 Now you should be able to log into your locally run app at `localhost:5000`.
 
-The `$SERVICES__ANTHROPIC__KEY` assumes you have that environmental variable. If you want you can instead paste your key of course. 
+The `$SERVICES__ANTHROPIC__KEY` assumes you have that environmental variable. If you want you can instead paste your key of course.
 
 OOOOOORRR you may specify that using `.envrc` using [direnv](https://direnv.net/). If that's the case run
 
@@ -118,11 +122,13 @@ OOOOOORRR you may specify that using `.envrc` using [direnv](https://direnv.net/
 replace `YOURKEY` in `.envrc` with erm ... your key
 
     direnv allow .
-    
+
 and then the docker run command again :-).
 
 
 ### 3. Run remotely on railway
+
+If you want to run this app o
 
 Railway provides a cli tool that we'll use here. The install docs: https://docs.railway.app/guides/cli
 
@@ -132,7 +138,7 @@ Once the cli is installed let's login with
 
 enter an e-mail address, copy the code you get, open the one you receive from railway and copy the code to the page linked in the e-mail. Then create a new project by clicking the "+" button in the top right and then "empty service".
 
-Then create a token as described in the docs: https://docs.railway.app/guides/public-api#creating-a-token 
+Then create a token as described in the docs: https://docs.railway.app/guides/public-api#creating-a-token
 
 In the project click "Settings", a tab in the top right, then "Tokens", then enter a name for your project token, then click "create.
 
@@ -155,13 +161,13 @@ To switch to the canvas in the browser use
 
     railway open
 
-If you don't want to use `.envrc` run the above commands like 
+If you don't want to use `.envrc` run the above commands like
 
     RAILWAY_TOKEN=YOURTOKEN railway up
 
 In order to attach a postgres db to your railway service for user authentication click "Create > Database > Add PostgreSQL" in the top right of the canvas.
 
-Then click on the added tile representing the database. Then click "Data > Create Table" and create a table called `app_users` with the column `username` and `hashed_password`, each of type `text`. Look at the `hashed_password` property of the `User` dataclass in `create-user-db.py` for how to create a hashed password. Then click the table and add rows for your users. Note that the usernames have to be present in your Dockerfile in the layer that created user specific directories, as `og` in `/data/og/extraction-artifacts` in the current Dockerfile. 
+Then click on the added tile representing the database. Then click "Data > Create Table" and create a table called `app_users` with the column `username` and `hashed_password`, each of type `text`. Look at the `hashed_password` property of the `User` dataclass in `create-user-db.py` for how to create a hashed password. Then click the table and add rows for your users. Note that the usernames have to be present in your Dockerfile in the layer that created user specific directories, as `og` in `/data/og/extraction-artifacts` in the current Dockerfile.
 
 Now let's tell railway to connect the streamlit app we pushed and the postgres app we created in the gui.
 
@@ -171,7 +177,7 @@ If that does not work the manual route is to click on the `Variables` tab of the
 
 Lastly, let's set the variables `KEY` and `PORT` in the `Variables` tab in the streamlit app tile. `KEY` should contain your valid anthropic key and `PORT` should be `5000`.
 
-Once the variables are updated a "Deploy" button should pop up in the top left asking to apply those changes. If this ran successfully you should be able to toy with your app in your browser in "local" mode. 
+Once the variables are updated a "Deploy" button should pop up in the top left asking to apply those changes. If this ran successfully you should be able to toy with your app in your browser in "local" mode.
 
 If you want to make the app generally available, e.g. to take pictures of receipts with your phone and submit them to processing to collect the for analysis on your desktop machine, click the streamlit app tile and then `Settings` and choose a name under "Networking > Public Networking".
 
