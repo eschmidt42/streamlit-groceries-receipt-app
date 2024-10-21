@@ -51,6 +51,40 @@ either running it locally or on railway. The latter allows you to take a picture
 
 Note: The pieces for the receipt image generation can be found in the jupyter notebook `./synthesize-and-parse-receipt.ipynb`.
 
+What does the app look like you ask? :-)
+
+## App screens
+
+### Login
+
+![login screen](screens/login-screen.png)
+
+### Upload
+
+![upload screen](screens/upload-screen.png)
+
+![upload screen 2](screens/upload-screen-2.png)
+
+### Rotation
+
+![rotation screen](screens/rotation-screen.png)
+
+### Cropping
+
+![cropping screen](screens/crop-screen.png)
+
+### Extraction & Wrangling
+
+![wrangling screen](screens/wrangling-screen.png)
+
+### Collection
+
+![collection screen](screens/collection-screen.png)
+
+### Logout
+
+![logout screen](screens/logout-screen.png)
+
 Alright, interested in deploying the app? :-)
 
 ## Deployment
